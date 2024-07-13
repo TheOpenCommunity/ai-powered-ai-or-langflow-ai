@@ -155,6 +155,8 @@ import {
   X,
   XCircle,
   Zap,
+  LucideAudioLines,
+  StopCircle,
 } from "lucide-react";
 import { FaApple, FaDiscord, FaGithub } from "react-icons/fa";
 import { AWSIcon } from "../icons/AWS";
@@ -572,4 +574,6 @@ export const nodeIconsLucide: iconsType = {
   MistralAI: MistralIcon,
   Upstash: UpstashSvgIcon,
   PGVector: CpuIcon,
+  LucideAudioLines: LucideAudioLines,
+  StopCircle: StopCircle,
 };

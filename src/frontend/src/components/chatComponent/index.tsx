@@ -17,6 +17,9 @@ export default function FlowToolbar(): JSX.Element {
   const [open, setOpen] = useState<boolean>(false);
   const [openCodeModal, setOpenCodeModal] = useState<boolean>(false);
   const [openShareModal, setOpenShareModal] = useState<boolean>(false);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+
   function handleAPIWShortcut(e: KeyboardEvent) {
     if (isThereModal() && !openCodeModal) return;
     setOpenCodeModal((oldOpen) => !oldOpen);
@@ -91,6 +94,76 @@ export default function FlowToolbar(): JSX.Element {
       setOpenShareModal,
     ],
   );
+
+  // Audio recording handlers
+  const handleAudioRecord = () => {
+    if (isRecording) {
+      console.log('Audio recording stopped');
+      stopRecording();
+    } else {
+      console.log('Audio recording started');
+      startRecording();
+    }
+  };
+
+  const startRecording = () => {
+    setIsRecording(true);
+    // Logic to start recording audio
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        const mediaRecorder = new MediaRecorder(stream);
+        const audioChunks: BlobPart[] = [];
+
+        mediaRecorder.ondataavailable = event => {
+          audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+          setAudioBlob(audioBlob);
+          // Show audioBlob in an audio element
+          console.log("==========URL.createObjectURL(audioBlob)==========");
+          console.log(URL.createObjectURL(audioBlob));
+          console.log("==========audioBlob==========");
+          console.log(audioBlob);
+          console.log('Sending audio to API...');
+          // Send audioBlob to the API
+          await sendAudioToAPI(audioBlob);
+        };
+
+        mediaRecorder.start();
+        // Automatically stop recording after 5 seconds
+        // setTimeout(() => {
+        //   mediaRecorder.stop();
+        //   setIsRecording(false);
+        // }, 5000);
+      });
+  };
+
+  const stopRecording = () => {
+    setIsRecording(false);
+    // Logic to stop recording audio
+  };
+
+  const sendAudioToAPI = async (audioBlob: Blob) => {
+    const formData = new FormData();
+    formData.append('file', new File([audioBlob], 'audio.mp3', { type: 'audio/mp3' }));
+    formData.append('model', 'whisper-1');
+    const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer sk-`
+      },
+      body: formData,
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.text);
+    } else {
+      const errorData = await response.json();
+      console.error('Failed to transcribe audio', errorData);
+    }
+  };
 
   return (
     <>
@@ -170,6 +243,20 @@ export default function FlowToolbar(): JSX.Element {
               >
                 {ModalMemo}
               </div>
+            </div>
+            <div>
+              <Separator orientation="vertical" />
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleAudioRecord}
+                className="relative inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-foreground transition-all duration-150 ease-in-out hover:bg-hover"
+              >
+                <ForwardedIconComponent
+                  name={isRecording ? "StopCircle" : "LucideAudioLines"}
+                  className="h-5 w-5"
+                />
+              </button>
             </div>
           </div>
         </div>

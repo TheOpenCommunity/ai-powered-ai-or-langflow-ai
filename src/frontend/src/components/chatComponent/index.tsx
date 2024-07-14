@@ -60,6 +60,7 @@ export default function FlowToolbar(): JSX.Element {
   const hasApiKey = useStoreStore((state) => state.hasApiKey);
   const currentFlow = useFlowsManagerStore((state) => state.currentFlow);
   const mergeFlow = useFlowsManagerStore((state) => state.mergeFlow);
+  const setCurrentFlow = useFlowsManagerStore((state) => state.setCurrentFlow);
 
   const prevNodesRef = useRef<any[] | undefined>();
 
@@ -160,6 +161,7 @@ export default function FlowToolbar(): JSX.Element {
   };
 
   const sendAudioToAPI = async (audioBlob: Blob) => {
+    const OPENAI_API_KEY = "";
     console.log('Sending audio to API...');
     const formData = new FormData();
     formData.append('file', new File([audioBlob], 'audio.mp3', { type: 'audio/mp3' }));
@@ -167,7 +169,7 @@ export default function FlowToolbar(): JSX.Element {
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer `
+        'Authorization': `Bearer ${OPENAI_API_KEY}`
       },
       body: formData,
     });
@@ -226,7 +228,8 @@ export default function FlowToolbar(): JSX.Element {
     console.log(flow);
     saveFullFlow(flow);
     console.log('-----------merged flow-----------');
-    mergeFlow(flow);
+    // mergeFlow(flow);
+    setCurrentFlow(flow);
   };
 
   return (

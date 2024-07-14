@@ -18,17 +18,18 @@ export const addNodesToFlow = (flow: any, nodeTemplates: any, nodeTypes: string[
     const template = nodeTemplates[nodeType];
     if (template) {
       const node = { ...template };
-      node.id = `${nodeType}-${generateUniqueId()}`;
+      // node.id = `${nodeType}-${generateUniqueId()}`;
+      node.id = `${nodeType}`;
       node.position = generatePosition(index);
+      node.data.id = node.id;
       flow.data.nodes.push(node);
     }
   });
   return flow;
 };
 
-// Function to add an edge to the flow with specified structure
 export const addEdgeToFlow = (flow: any, source: string, target: string, sourceType: string, targetType: string): any => {
-  const sourceHandle = `{œdataTypeœ:œ${sourceType}œ,œidœ:œ${source}œ,œnameœ:œmessageœ,œoutput_typesœ:[œMessageœ]}`;
+  const sourceHandle = `{œdataTypeœ:œ${sourceType}œ,œidœ:œ${source}œ,œnameœ:œ${source === "ChatInput" ? "message" : "text_output"}œ,œoutput_typesœ:[œMessageœ]}`;
   const targetHandle = `{œfieldNameœ:œinput_valueœ,œidœ:œ${target}œ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}`;
 
   const edge = {
@@ -46,7 +47,7 @@ export const addEdgeToFlow = (flow: any, source: string, target: string, sourceT
       sourceHandle: {
         dataType: sourceType,
         id: source,
-        name: "message",
+        name: source === "ChatInput" ? "message" : "text_output",
         output_types: ["Message"]
       }
     },
@@ -56,7 +57,6 @@ export const addEdgeToFlow = (flow: any, source: string, target: string, sourceT
   return flow;
 };
 
-// Function to save the updated flow
 export const saveFullFlow = (flow: any, fileName: string = 'fullflow.json') => {
   const blob = new Blob([JSON.stringify(flow, null, 4)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);

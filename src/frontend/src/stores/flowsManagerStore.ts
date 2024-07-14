@@ -520,28 +520,31 @@ const useFlowsManagerStore = create<FlowsManagerStoreType>((set, get) => ({
   setSelectedFlowsComponentsCards: (selectedFlowsComponentsCards: string[]) => {
     set({ selectedFlowsComponentsCards });
   },
-  mergeFlow: (newFlow: any) => {
+  mergeFlow: (newFlow: FlowType) => {
     console.log("Merging flow", newFlow);
     set((state) => {
-      const currentFlow = state.currentFlow;
-      if (!currentFlow || !currentFlow.data) return state;
-      const mergedNodes = [...currentFlow.data.nodes, ...newFlow.data.nodes];
-      const mergedEdges = [...currentFlow.data.edges, ...newFlow.data.edges];
-      const updatedFlow = {
-        ...currentFlow,
-        data: {
-          ...currentFlow.data,
-          nodes: mergedNodes,
-          edges: mergedEdges,
-        },
-      };
-      return {
-        ...state,
-        currentFlow: updatedFlow,
-        flows: state.flows.map((flow) =>
-          flow.id === updatedFlow.id ? updatedFlow : flow
-        ),
-      };
+        const currentFlow = state.currentFlow;
+        if (!currentFlow || !currentFlow.data) return state;
+
+        if (!newFlow.data || !newFlow.data.nodes || !newFlow.data.edges) return state;
+
+        const mergedNodes = [...currentFlow.data.nodes, ...newFlow.data.nodes];
+        const mergedEdges = [...currentFlow.data.edges, ...newFlow.data.edges];
+        const updatedFlow = {
+            ...currentFlow,
+            data: {
+                ...currentFlow.data,
+                nodes: mergedNodes,
+                edges: mergedEdges,
+            },
+        };
+        return {
+            ...state,
+            currentFlow: updatedFlow,
+            flows: state.flows.map((flow) =>
+                flow.id === updatedFlow.id ? updatedFlow : flow
+            ),
+        };
     });
   },
 }));

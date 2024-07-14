@@ -1,4 +1,4 @@
-const OPENAI_API_KEY = '';
+const OPENAI_API_KEY = ""
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 export const getCompletion = async (messages: any[]): Promise<string> => {
@@ -18,25 +18,25 @@ export const getCompletion = async (messages: any[]): Promise<string> => {
                 "nodes": [
                 {
                     "type": "ChatInput",
-                    "id": "ChatInput-Qw"
+                    "id": "ChatInput"
                 },
                 {
                     "type": "OpenAIModel",
-                    "id": "OpenAIModel-Qa"
+                    "id": "OpenAIModel"
                 },
                 {
                     "type": "ChatOutput",
-                    "id": "ChatOutput-QA"
+                    "id": "ChatOutput"
                 }
                 ],
                 "edges": [
                 {
-                    "source": "ChatInput-Qw",
-                    "target": "OpenAIModel-Qa"
+                    "source": "ChatInput",
+                    "target": "OpenAIModel"
                 },
                 {
-                    "source": "OpenAIModel-Qa",
-                    "target": "ChatOutput-QA"
+                    "source": "OpenAIModel",
+                    "target": "ChatOutput"
                 }
                 ]
             } . \n  REMEMBER: You should only return json with nodes and edges.`

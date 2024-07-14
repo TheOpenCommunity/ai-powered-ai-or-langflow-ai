@@ -11,6 +11,13 @@ import { useStoreStore } from "../../stores/storeStore";
 import { classNames, isThereModal } from "../../utils/utils";
 import ForwardedIconComponent from "../genericIconComponent";
 import { Separator } from "../ui/separator";
+import { getCompletion } from './gptService';
+import { addNodesToFlow, addEdgeToFlow, saveFullFlow } from './flowUtils';
+import chatinputTemplate from './chatinput.json';
+import chatoutputTemplate from './chatoutput.json';
+import modelTemplate from './model.json';
+import fullFlowTemplate from './fullflow.json';
+
 
 export default function FlowToolbar(): JSX.Element {
   const preventDefault = true;
@@ -19,6 +26,8 @@ export default function FlowToolbar(): JSX.Element {
   const [openShareModal, setOpenShareModal] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   function handleAPIWShortcut(e: KeyboardEvent) {
     if (isThereModal() && !openCodeModal) return;
@@ -50,6 +59,7 @@ export default function FlowToolbar(): JSX.Element {
   const validApiKey = useStoreStore((state) => state.validApiKey);
   const hasApiKey = useStoreStore((state) => state.hasApiKey);
   const currentFlow = useFlowsManagerStore((state) => state.currentFlow);
+  const mergeFlow = useFlowsManagerStore((state) => state.mergeFlow);
 
   const prevNodesRef = useRef<any[] | undefined>();
 
@@ -112,6 +122,7 @@ export default function FlowToolbar(): JSX.Element {
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then(stream => {
         const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
         const audioChunks: BlobPart[] = [];
 
         mediaRecorder.ondataavailable = event => {
@@ -119,6 +130,7 @@ export default function FlowToolbar(): JSX.Element {
         };
 
         mediaRecorder.onstop = async () => {
+          console.log('Audio recording stopped');
           const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
           setAudioBlob(audioBlob);
           // Show audioBlob in an audio element
@@ -141,28 +153,80 @@ export default function FlowToolbar(): JSX.Element {
   };
 
   const stopRecording = () => {
-    setIsRecording(false);
-    // Logic to stop recording audio
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
   };
 
   const sendAudioToAPI = async (audioBlob: Blob) => {
+    console.log('Sending audio to API...');
     const formData = new FormData();
     formData.append('file', new File([audioBlob], 'audio.mp3', { type: 'audio/mp3' }));
     formData.append('model', 'whisper-1');
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer sk-`
+        'Authorization': `Bearer sk-proj-CMio6PWM2yB1nS5ZqaMsT3BlbkFJNkvZ6QjNjZ3QXQH92r3b`
       },
       body: formData,
     });
     if (response.ok) {
       const data = await response.json();
       console.log(data.text);
+      if (data.text) {
+        updateFullFlow(data.text)
+        .then(() => console.log('Flow updated successfully!'))
+        .catch(error => console.error('Error updating flow:', error));
+      }
     } else {
       const errorData = await response.json();
       console.error('Failed to transcribe audio', errorData);
     }
+  };
+
+  // AI copilot
+  const parseCommand = async (command: string): Promise<any> => {
+    const messages = [
+      {
+        role: 'user',
+        content: command
+      }
+    ];
+
+    const completion = await getCompletion(messages);
+    return JSON.parse(completion);
+  };
+
+  const updateFullFlow = async (command: string) => {
+    const parsedCommand = await parseCommand(command);
+
+    const { nodes, edges } = parsedCommand;
+
+    let flow = { ...fullFlowTemplate };
+
+    const nodeTemplates = {
+      'ChatInput': chatinputTemplate,
+      'ChatOutput': chatoutputTemplate,
+      'OpenAIModel': modelTemplate
+    };
+
+    // Add nodes to the flow
+    const nodeTypes = nodes.map((node: any) => node.type);
+    flow = addNodesToFlow(flow, nodeTemplates, nodeTypes);
+
+    // Add edges to the flow
+    edges.forEach((edge: any) => {
+      const sourceType = nodeTypes.find((type: string) => edge.source.startsWith(type));
+      const targetType = nodeTypes.find((type: string) => edge.target.startsWith(type));
+      flow = addEdgeToFlow(flow, edge.source, edge.target, sourceType, targetType);
+    });
+
+    console.log('-----------generated flow-----------');
+    console.log(flow);
+    saveFullFlow(flow);
+    console.log('-----------merged flow-----------');
+    mergeFlow(flow);
   };
 
   return (

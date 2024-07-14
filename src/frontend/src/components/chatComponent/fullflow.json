@@ -1,0 +1,21 @@
+{
+	"id": "ee20a271-7242-4b08-b325-8bbe3e9aa551",
+	"data": {
+		"nodes": [
+
+		],
+		"edges": [
+
+		],
+		"viewport": {
+			"x": 553.3237053478142,
+			"y": 430.9894878060743,
+			"zoom": 0.5013882179505421
+		}
+	},
+	"description": "Your Hub for Text Generation.",
+	"name": "simplechat",
+	"endpoint_name": null,
+	"is_component": false,
+	"last_tested_version": "1.0.9"
+}

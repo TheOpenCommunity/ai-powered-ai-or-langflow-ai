@@ -1,0 +1,20 @@
+{
+	"data": {
+		"edges": [
+
+		],
+		"nodes": [
+
+		],
+		"viewport": {
+			"x": 1,
+			"y": 1,
+			"zoom": 1
+		}
+	},
+	"description": "Generates text using OpenAI LLMs.",
+	"name": "OpenAI",
+	"id": "OpenAIModel-PsLhO",
+	"is_component": true,
+	"last_tested_version": "1.0.9"
+}

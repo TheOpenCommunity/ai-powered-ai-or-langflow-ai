@@ -1,0 +1,192 @@
+{
+	"data": {
+		"type": "ChatOutput",
+		"node": {
+			"template": {
+				"_type": "Component",
+				"code": {
+					"type": "code",
+					"required": true,
+					"placeholder": "",
+					"list": false,
+					"show": true,
+					"multiline": true,
+					"value": "from langflow.base.io.chat import ChatComponent\nfrom langflow.inputs import BoolInput\nfrom langflow.io import DropdownInput, MessageTextInput, Output\nfrom langflow.memory import store_message\nfrom langflow.schema.message import Message\n\n\nclass ChatOutput(ChatComponent):\n    display_name = \"Chat Output\"\n    description = \"Display a chat message in the Playground.\"\n    icon = \"ChatOutput\"\n    name = \"ChatOutput\"\n\n    inputs = [\n        MessageTextInput(\n            name=\"input_value\",\n            display_name=\"Text\",\n            info=\"Message to be passed as output.\",\n        ),\n        BoolInput(\n            name=\"store_message\",\n            display_name=\"Store Messages\",\n            info=\"Store the message in the history.\",\n            value=True,\n            advanced=True,\n        ),\n        DropdownInput(\n            name=\"sender\",\n            display_name=\"Sender Type\",\n            options=[\"Machine\", \"User\"],\n            value=\"Machine\",\n            advanced=True,\n            info=\"Type of sender.\",\n        ),\n        MessageTextInput(\n            name=\"sender_name\", display_name=\"Sender Name\", info=\"Name of the sender.\", value=\"AI\", advanced=True\n        ),\n        MessageTextInput(\n            name=\"session_id\", display_name=\"Session ID\", info=\"Session ID for the message.\", advanced=True\n        ),\n        MessageTextInput(\n            name=\"data_template\",\n            display_name=\"Data Template\",\n            value=\"{text}\",\n            advanced=True,\n            info=\"Template to convert Data to Text. If left empty, it will be dynamically set to the Data's text key.\",\n        ),\n    ]\n    outputs = [\n        Output(display_name=\"Message\", name=\"message\", method=\"message_response\"),\n    ]\n\n    def message_response(self) -> Message:\n        message = Message(\n            text=self.input_value,\n            sender=self.sender,\n            sender_name=self.sender_name,\n            session_id=self.session_id,\n        )\n        if self.session_id and isinstance(message, Message) and isinstance(message.text, str):\n            store_message(\n                message,\n                flow_id=self.graph.flow_id,\n            )\n            self.message.value = message\n\n        self.status = message\n        return message\n",
+					"fileTypes": [
+
+					],
+					"file_path": "",
+					"password": false,
+					"name": "code",
+					"advanced": true,
+					"dynamic": true,
+					"info": "",
+					"load_from_db": false,
+					"title_case": false
+				},
+				"data_template": {
+					"trace_as_input": true,
+					"trace_as_metadata": true,
+					"load_from_db": false,
+					"list": false,
+					"required": false,
+					"placeholder": "",
+					"show": true,
+					"value": "{text}",
+					"name": "data_template",
+					"display_name": "Data Template",
+					"advanced": true,
+					"input_types": [
+						"Message"
+					],
+					"dynamic": false,
+					"info": "Template to convert Data to Text. If left empty, it will be dynamically set to the Data's text key.",
+					"title_case": false,
+					"type": "str"
+				},
+				"input_value": {
+					"trace_as_input": true,
+					"trace_as_metadata": true,
+					"load_from_db": false,
+					"list": false,
+					"required": false,
+					"placeholder": "",
+					"show": true,
+					"value": "",
+					"name": "input_value",
+					"display_name": "Text",
+					"advanced": false,
+					"input_types": [
+						"Message"
+					],
+					"dynamic": false,
+					"info": "Message to be passed as output.",
+					"title_case": false,
+					"type": "str"
+				},
+				"sender": {
+					"trace_as_metadata": true,
+					"options": [
+						"Machine",
+						"User"
+					],
+					"required": false,
+					"placeholder": "",
+					"show": true,
+					"value": "Machine",
+					"name": "sender",
+					"display_name": "Sender Type",
+					"advanced": true,
+					"dynamic": false,
+					"info": "Type of sender.",
+					"title_case": false,
+					"type": "str"
+				},
+				"sender_name": {
+					"trace_as_input": true,
+					"trace_as_metadata": true,
+					"load_from_db": false,
+					"list": false,
+					"required": false,
+					"placeholder": "",
+					"show": true,
+					"value": "AI",
+					"name": "sender_name",
+					"display_name": "Sender Name",
+					"advanced": true,
+					"input_types": [
+						"Message"
+					],
+					"dynamic": false,
+					"info": "Name of the sender.",
+					"title_case": false,
+					"type": "str"
+				},
+				"session_id": {
+					"trace_as_input": true,
+					"trace_as_metadata": true,
+					"load_from_db": false,
+					"list": false,
+					"required": false,
+					"placeholder": "",
+					"show": true,
+					"value": "",
+					"name": "session_id",
+					"display_name": "Session ID",
+					"advanced": true,
+					"input_types": [
+						"Message"
+					],
+					"dynamic": false,
+					"info": "Session ID for the message.",
+					"title_case": false,
+					"type": "str"
+				},
+				"store_message": {
+					"trace_as_metadata": true,
+					"list": false,
+					"required": false,
+					"placeholder": "",
+					"show": true,
+					"value": true,
+					"name": "store_message",
+					"display_name": "Store Messages",
+					"advanced": true,
+					"dynamic": false,
+					"info": "Store the message in the history.",
+					"title_case": false,
+					"type": "bool"
+				}
+			},
+			"description": "Display a chat message in the Playground.",
+			"icon": "ChatOutput",
+			"base_classes": [
+				"Message"
+			],
+			"display_name": "Chat Output",
+			"documentation": "",
+			"custom_fields": {
+
+			},
+			"output_types": [
+
+			],
+			"pinned": false,
+			"conditional_paths": [
+
+			],
+			"frozen": false,
+			"outputs": [
+				{
+					"types": [
+						"Message"
+					],
+					"selected": "Message",
+					"name": "message",
+					"display_name": "Message",
+					"method": "message_response",
+					"value": "__UNDEFINED__",
+					"cache": true
+				}
+			],
+			"field_order": [
+				"input_value",
+				"store_message",
+				"sender",
+				"sender_name",
+				"session_id",
+				"data_template"
+			],
+			"beta": false,
+			"edited": false,
+			"official": false
+		},
+		"id": "ChatOutput-d5mQI"
+	},
+	"id": "ChatOutput-d5mQI",
+	"position": {
+		"x": 0,
+		"y": 0
+	},
+	"type": "genericNode"
+}

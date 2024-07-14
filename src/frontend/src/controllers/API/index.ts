@@ -159,6 +159,9 @@ export async function saveFlowToDatabase(newFlow: {
 export async function updateFlowInDatabase(
   updatedFlow: FlowType,
 ): Promise<FlowType> {
+  console.log("-------debug-------");
+  console.log(`updatedFlow nodes:\n ${updatedFlow.data?.nodes}`);
+  console.log(`updatedFlow edges:\n ${updatedFlow.data?.edges}`);
   try {
     const response = await api.patch(`${BASE_URL_API}flows/${updatedFlow.id}`, {
       name: updatedFlow.name,

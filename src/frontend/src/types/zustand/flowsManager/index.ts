@@ -64,6 +64,7 @@ export type FlowsManagerStoreType = {
   searchFlowsComponents: string;
   selectedFlowsComponentsCards: string[];
   setSelectedFlowsComponentsCards: (selected: string[]) => void;
+  mergeFlow: (newFlow: any) => void;
 };
 
 export type UseUndoRedoOptions = {

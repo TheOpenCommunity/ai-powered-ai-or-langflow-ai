@@ -167,7 +167,7 @@ export default function FlowToolbar(): JSX.Element {
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer sk-proj-CMio6PWM2yB1nS5ZqaMsT3BlbkFJNkvZ6QjNjZ3QXQH92r3b`
+        'Authorization': `Bearer `
       },
       body: formData,
     });

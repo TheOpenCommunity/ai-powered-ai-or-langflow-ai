@@ -1,4 +1,4 @@
-const OPENAI_API_KEY = 'sk-proj-CMio6PWM2yB1nS5ZqaMsT3BlbkFJNkvZ6QjNjZ3QXQH92r3b';
+const OPENAI_API_KEY = '';
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 export const getCompletion = async (messages: any[]): Promise<string> => {

@@ -1,27 +1,44 @@
 <div align="center" style="padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9; border-radius: 10px; margin-bottom: 20px;">
-    <h2 style="margin: 0; font-size: 24px; color: #333;">Langflow AI is OUT! 🎉</h2>
-    <p style="margin: 5px 0 0 0; font-size: 16px; color: #666;">Read all about it <a href="https://www.linkedin.com/posts/abdibrokhim_langflow-langflowui-opensource-activity-7218307952036741121-XbxE?utm_source=share&utm_medium=member_desktop" style="text-decoration: underline; color: #1a73e8;">here</a>!</p>
+    <h2 style="margin: 0; font-size: 24px; color: #333;">Langflow 1.0 is OUT! 🎉</h2>
+    <p style="margin: 5px 0 0 0; font-size: 16px; color: #666;">Read all about it <a href="https://medium.com/p/73d3bdce8440" style="text-decoration: underline; color: #1a73e8;">here</a>!</p>
 </div>
 
 <!-- markdownlint-disable MD030 -->
 
-# [![Langflow](./docs/static/img/ps.png)](https://www.langflow.org)
+# [![Langflow](./docs/static/img/hero.png)](https://www.langflow.org)
 
 <p align="center"><strong>
-    A visual framework for building multi-agent and RAG applications. Now AI powered!
+    A visual framework for building multi-agent and RAG applications
 </strong></p>
 <p align="center" style="font-size: 12px;">
     Open-source, Python-powered, fully customizable, LLM and vector store agnostic
 </p>
 
-<p align="center">
-<img src="./docs/static/img/langflow_basic_howto.gif" alt="Your GIF" style="border: 3px solid #211C43;">
+<p align="center" style="font-size: 12px;">
+    <a href="https://docs.langflow.org" style="text-decoration: underline;">Docs</a> -
+    <a href="https://discord.com/invite/EqksyE2EX9" style="text-decoration: underline;">Join our Discord</a> -
+    <a href="https://twitter.com/langflow_ai" style="text-decoration: underline;">Follow us on X</a> -
+    <a href="https://huggingface.co/spaces/Langflow/Langflow-Preview" style="text-decoration: underline;">Live demo</a>
 </p>
 
+<p align="center">
+    <a href="https://github.com/langflow-ai/langflow">
+        <img src="https://img.shields.io/github/stars/langflow-ai/langflow">
+    </a>
+    <a href="https://discord.com/invite/EqksyE2EX9">
+        <img src="https://img.shields.io/discord/1116803230643527710?label=Discord">
+    </a>
+</p>
 
-## 🚀 Watch on YouTube
-[![YouTube](http://i.ytimg.com/vi/d9eJJHAp8v8/hqdefault.jpg)](https://www.youtube.com/watch?v=d9eJJHAp8v8)
+<div align="center">
+  <a href="./README.md"><img alt="README in English" src="https://img.shields.io/badge/English-d9d9d9"></a>
+  <a href="./README.PT.md"><img alt="README in Portuguese" src="https://img.shields.io/badge/Portuguese-d9d9d9"></a>
+  <a href="./README.zh_CN.md"><img alt="README in Simplified Chinese" src="https://img.shields.io/badge/简体中文-d9d9d9"></a>
+</div>
 
+<p align="center">
+  <img src="./docs/static/img/langflow_basic_howto.gif" alt="Your GIF" style="border: 3px solid #211C43;">
+</p>
 
 # 📝 Content
 
@@ -53,30 +70,17 @@ python -m pip install langflow -U
 ```
 Or
 
-If you would like to install from your cloned repo,
+If you would like to install from your cloned repo, you can build and install Langflow's frontend and backend with:
 
 ```shell
-git clone https://github.com/abdibrokhim/langflow
+make install_frontend && make build_frontend && make install_backend
 ```
 
-you can build and install Langflow's frontend and backend with:
+Then, run Langflow with:
 
 ```shell
-make frontend
+python -m langflow run
 ```
-
-```shell
-make frontend
-```
-
-then
-
-open http://localhost:3000 in your browser for the frontend
-
-and http://localhost:7860 for the backend.
-
-go to http://localhost:7860/redoc for the API documentation.
-
 
 # 🎨 Create Flows
 
@@ -171,6 +175,16 @@ A sample `.env` file named `.env.example` is included with the project. Copy thi
 
 # 👋 Contribute
 
-Kindly check the [CONTRIBUTING.md](https://github.com/abdibrokhim/langflow/blob/main/CONTRIBUTING.md)
+We welcome contributions from developers of all levels to our open-source project on GitHub. If you'd like to contribute, please check our [contributing guidelines](./CONTRIBUTING.md) and help make Langflow more accessible.
 
-Official Langflow repository: [langflow](https://github.com/langflow-ai/langflow)
+---
+
+[![Star History Chart](https://api.star-history.com/svg?repos=langflow-ai/langflow&type=Timeline)](https://star-history.com/#langflow-ai/langflow&Date)
+
+# 🌟 Contributors
+
+[![langflow contributors](https://contrib.rocks/image?repo=langflow-ai/langflow)](https://github.com/langflow-ai/langflow/graphs/contributors)
+
+# 📄 License
+
+Langflow is released under the MIT License. See the [LICENSE](LICENSE) file for details.

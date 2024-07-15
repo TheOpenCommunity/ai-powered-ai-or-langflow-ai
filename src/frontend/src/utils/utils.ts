@@ -196,6 +196,9 @@ export function IncrementObjectKey(
 }
 
 export function removeCountFromString(input: string): string {
+  if (typeof input !== 'string') {
+    return '';
+  }
   // Define a regex pattern to match the count in parentheses
   const pattern = /\s*\(\w+\)\s*$/;
 

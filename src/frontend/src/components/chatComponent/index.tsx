@@ -18,7 +18,6 @@ import chatoutputTemplate from './chatoutput.json';
 import modelTemplate from './model.json';
 import fullFlowTemplate from './fullflow.json';
 
-
 export default function FlowToolbar(): JSX.Element {
   const preventDefault = true;
   const [open, setOpen] = useState<boolean>(false);
@@ -161,7 +160,7 @@ export default function FlowToolbar(): JSX.Element {
   };
 
   const sendAudioToAPI = async (audioBlob: Blob) => {
-    const OPENAI_API_KEY = "";
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
     console.log('Sending audio to API...');
     const formData = new FormData();
     formData.append('file', new File([audioBlob], 'audio.mp3', { type: 'audio/mp3' }));

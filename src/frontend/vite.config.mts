@@ -32,6 +32,7 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       "process.env.BACKEND_URL": JSON.stringify(process.env.BACKEND_URL),
+      "process.env.OPENAI_API_KEY": JSON.stringify(process.env.OPENAI_API_KEY),
     },
     plugins: [react(), svgr(), tsconfigPaths()],
     server: {

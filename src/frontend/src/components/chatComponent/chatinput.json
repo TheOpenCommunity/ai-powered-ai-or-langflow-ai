@@ -1,4 +1,10 @@
 {
+	"id": "ChatInput-bXhry",
+	"type": "genericNode",
+	"position": {
+		"x": -230.0581552145556,
+		"y": 1167.3343008941288
+	},
 	"data": {
 		"type": "ChatInput",
 		"node": {
@@ -200,15 +206,16 @@
 				"files"
 			],
 			"beta": false,
-			"edited": false,
-			"official": false
+			"edited": false
 		},
-		"id": "ChatInput-vDyBi"
+		"id": "ChatInput-bXhry"
 	},
-	"id": "ChatInput-vDyBi",
-	"position": {
-		"x": 0,
-		"y": 0
+	"selected": true,
+	"width": 384,
+	"height": 309,
+	"positionAbsolute": {
+		"x": -230.0581552145556,
+		"y": 1167.3343008941288
 	},
-	"type": "genericNode"
+	"dragging": false
 }

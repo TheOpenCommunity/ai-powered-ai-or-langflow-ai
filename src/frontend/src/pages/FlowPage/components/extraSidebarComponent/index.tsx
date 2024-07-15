@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
 import { LinkIcon, SparklesIcon } from "lucide-react";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { DragEventHandler, Fragment, useEffect, useMemo, useState } from "react";
 import IconComponent from "../../../../components/genericIconComponent";
 import ShadTooltip from "../../../../components/shadTooltipComponent";
 import { Input } from "../../../../components/ui/input";
@@ -52,7 +52,61 @@ export default function ExtraSidebar(): JSX.Element {
     document.body.appendChild(crt);
     event.dataTransfer.setDragImage(crt, 0, 0);
     event.dataTransfer.setData("nodedata", JSON.stringify(data));
+    console.log('--- onDragStart --- data', data);
   }
+
+  // simulation of drag and drop
+  // useEffect(() => {
+  //   const handleKeyPress = (event: KeyboardEvent) => {
+  //     if (event.key === 'q') {
+  //       console.log('clicked q');
+  //       // Simulate drag and drop for the first component in the list as an example
+  //       const SBSectionName = Object.keys(dataFilter).sort(sortKeys).filter((x) => PRIORITY_SIDEBAR_ORDER.includes(x))[2];
+  //       console.log('--- SBSectionName ---', SBSectionName);
+  //       if (!SBSectionName) return;
+
+  //       const SBItemName = Object.keys(dataFilter[SBSectionName]).sort((a, b) =>
+  //         sensitiveSort(
+  //           dataFilter[SBSectionName][a].display_name,
+  //           dataFilter[SBSectionName][b].display_name,
+  //         ),
+  //       )[0];
+  //       console.log('--- SBItemName ---', SBItemName);
+  //       if (!SBItemName) return;
+
+  //       let dragEvent = new DragEvent('dragstart', {
+  //         dataTransfer: new DataTransfer(),
+  //       });
+
+  //       // Create a custom event with the necessary data
+  //       const data = {
+  //         type: removeCountFromString(SBItemName),
+  //         node: dataFilter[SBSectionName][SBItemName],
+  //       };
+  //       console.log('--- data ---', data);
+  //       console.error("dragEvent.dataTransfer", dragEvent.dataTransfer);
+
+  //       dragEvent.dataTransfer.setData('nodedata', JSON.stringify(data));
+
+  //       const draggableElement = document.querySelector(`[data-draggable-id="${SBSectionName}-${SBItemName}"]`) as HTMLElement;
+  //       console.log('--- draggableElement ---', draggableElement);
+
+  //       if (draggableElement) {
+  //         const onDragStartHandler = (event: DragEvent) => {
+  //           onDragStart(event as any, data);
+  //           draggableElement.removeEventListener('dragstart', onDragStartHandler);
+  //         };
+  //         draggableElement.addEventListener('dragstart', onDragStartHandler);
+  //         draggableElement.dispatchEvent(dragEvent);
+  //       }
+  //     }
+  //   };
+
+  //   window.addEventListener('keydown', handleKeyPress);
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyPress);
+  //   };
+  // }, [dataFilter]);
 
   // Handle showing components after use search input
   function handleSearchInput(e: string) {

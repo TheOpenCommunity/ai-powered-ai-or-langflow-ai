@@ -17,10 +17,6 @@
     Open-source, Powered by OpenAI's GPT4o and Whisper.
 </p>
 
-<p align="center">
-<img src="./docs/static/img/langflow_basic_howto.gif" alt="Your GIF" style="border: 3px solid #211C43;">
-</p>
-
 
 ## 🚀 Watch on YouTube
 [![YouTube](http://i.ytimg.com/vi/d9eJJHAp8v8/hqdefault.jpg)](https://www.youtube.com/watch?v=d9eJJHAp8v8)
